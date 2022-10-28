@@ -17,10 +17,16 @@ function addExpense(e) {
             Category : category.value
         }
 
-        let expenseSerialised = JSON.stringify(expenseDetails);
+        axios.post('https://crudcrud.com/api/43121808229e4159b974e252d942bf31/expenseData',expenseDetails)
+        .then(res => {
+            showexpenseonScreen(res.data);
+        })
+        .catch(err => console.log(err));
 
-        localStorage.setItem(expenseDetails.Category,expenseSerialised);
-        showexpenseonScreen(expenseDetails);
+        // let expenseSerialised = JSON.stringify(expenseDetails);
+
+        // localStorage.setItem(expenseDetails.Category,expenseSerialised);
+        // showexpenseonScreen(expenseDetails);
         
         expenseAmt.value = '';
         description.value = '';
@@ -28,30 +34,45 @@ function addExpense(e) {
     }
 }
 
+window.addEventListener('DOMContentLoaded', function() {
+    axios.get('https://crudcrud.com/api/43121808229e4159b974e252d942bf31/expenseData')
+    .then(res => {
+        for(let i=0;i<res.data.length;i++){
+            showexpenseonScreen(res.data[i]);
+        }
+    })
+    .catch(err => console.log(err));
+})
+
 function showexpenseonScreen(expense){
     const parentNode = document.getElementById('expenses');
-    const childHTML = `<li id=${expense.Category}>  ${expense.expenseAmount} : ${expense.desc} : ${expense.Category}
-    <button onClick=deleteExpense("${expense.Category}")>Delete Expense</button>
-    <button onclick=editExpense("${expense.Category}","${expense.expenseAmount}","${expense.desc}")>Edit Expense</button>
+    const childHTML = `<li id=${expense._id}>  ${expense.expenseAmount} : ${expense.desc} : ${expense.Category}
+    <button onClick=deleteExpense("${expense._id}")>Delete Expense</button>
+    <button onclick=editExpense("${expense._id}","${expense.Category}","${expense.expenseAmount}","${expense.desc}")>Edit Expense</button>
     </li>`
     parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }
 
-function editExpense(category,expenseAmt,desc){
+function editExpense(expenseId,category,expenseAmt,desc){
     document.getElementById('category').value = category;
     document.getElementById('expenseAmount').value = expenseAmt;
     document.getElementById('description').value = desc;
-    deleteExpense(category);
+    deleteExpense(expenseId);
 }
 
-function deleteExpense(category){
-    localStorage.removeItem(category);
-    removeexpensefromScreen(category);
+function deleteExpense(expenseId){
+    axios.delete(`https://crudcrud.com/api/43121808229e4159b974e252d942bf31/expenseData/${expenseId}`)
+    .then(res => {
+        removeexpensefromScreen(expenseId)
+    })
+    .catch(err => console.log(err));
+    // localStorage.removeItem(category);
+    // removeexpensefromScreen(category);
 }
 
-function removeexpensefromScreen(category){
+function removeexpensefromScreen(expenseId){
     const parentNode = document.getElementById('expenses');
-    const deleteChild = document.getElementById(category);
+    const deleteChild = document.getElementById(expenseId);
     if(deleteChild){
         parentNode.removeChild(deleteChild);
     }
