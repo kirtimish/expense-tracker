@@ -5,7 +5,7 @@ const myForm = document.getElementById('expenseTracker-form');
 
 myForm.addEventListener('submit',addExpense);
 
-function addExpense(e) {
+async function addExpense(e) {
     if(expenseAmt.value == '' || description.value == '' || category.value == ''){
         alert('Please fill all details');
     } else {
@@ -16,12 +16,13 @@ function addExpense(e) {
             desc : description.value,
             Category : category.value
         }
-
-        axios.post('https://crudcrud.com/api/2561135c7f5a4e0b9d363975f2879e7a/expenseData',expenseDetails)
-        .then(res => {
+         
+        try {
+            const res = await axios.post('https://crudcrud.com/api/7bfd895115f74b469e03286eecce97f4/expenseData',expenseDetails)
             showexpenseonScreen(res.data);
-        })
-        .catch(err => console.log(err));
+        } catch (error) {
+            console.log(err)
+        }
 
         // let expenseSerialised = JSON.stringify(expenseDetails);
 
@@ -34,14 +35,19 @@ function addExpense(e) {
     }
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-    axios.get('https://crudcrud.com/api/2561135c7f5a4e0b9d363975f2879e7a/expenseData')
-    .then(res => {
-        for(let i=0;i<res.data.length;i++){
-            showexpenseonScreen(res.data[i]);
+window.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const res = await axios.get('https://crudcrud.com/api/7bfd895115f74b469e03286eecce97f4/expenseData');
+        if(res.data){
+            for(let i=0;i<res.data.length;i++){
+                showexpenseonScreen(res.data[i]);
+            }
         }
-    })
-    .catch(err => console.log(err));
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 function showexpenseonScreen(expense){
@@ -60,12 +66,13 @@ function editExpense(expenseId,category,expenseAmt,desc){
     deleteExpense(expenseId);
 }
 
-function deleteExpense(expenseId){
-    axios.delete(`https://crudcrud.com/api/2561135c7f5a4e0b9d363975f2879e7a/expenseData/${expenseId}`)
-    .then(res => {
+async function deleteExpense(expenseId){
+    try {
+        const res = await axios.delete(`https://crudcrud.com/api/7bfd895115f74b469e03286eecce97f4/expenseData/${expenseId}`) 
         removeexpensefromScreen(expenseId)
-    })
-    .catch(err => console.log(err));
+    } catch (error) {
+        console.log(error)
+    }
     // localStorage.removeItem(category);
     // removeexpensefromScreen(category);
 }
