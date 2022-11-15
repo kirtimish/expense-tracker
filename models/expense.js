@@ -10,17 +10,14 @@ const Expense = sequalize.define('expense', {
         primaryKey: true
     },
     expenseAmt: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     description: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    category: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
+    category:  Sequelize.STRING,
 });
 
 module.exports = Expense;
