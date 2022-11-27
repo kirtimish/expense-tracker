@@ -17,3 +17,12 @@ body{
 #signup-form {
     padding: 50px 40px;
 }
+
+#login-Section {
+    padding: 50px 300px;
+    margin: auto;
+}
+
+#login-form {
+    padding: 50px 40px;
+}
