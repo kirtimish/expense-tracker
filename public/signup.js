@@ -2,26 +2,9 @@ const username = document.getElementById('username')
 const emailId = document.getElementById('emailId')
 const password = document.getElementById('password')
 
-function showuserDetails() {
-    const username = username.value;
-    const emailId = emailId.value;
-    const password = password.value;
-
-    const userDetails = {
-        username,
-        emailId,
-        password
-    }
-
-    signupUser(userDetails)
-}
-
-async function signupUser(userdetails) {
+async function signupUser() {
     try {
-        const res = await axios.post('',userdetails)
-        if(res.status == 200){
-            console.log('signup successfull')
-        }
+        const res = await axios.post('http://localhost:3000/signup')
     } catch (error) {
         console.log(error)
     }

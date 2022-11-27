@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>App</title>
+    </head>
+    <body>
+            <h1>Expense Tracker</h1>
+            <form action="/insert-expense" method="post" id="expenseTracker-form">
+              <div>
+                <label for="expenseAmount">Choose Expense Amount:</label>
+                <input type="text" id="expenseAmount" name="expenseAmt">
+              </div>
+              <div>
+                <label for="description">Choose Description:</label>
+                <input type="text" id="description" name="description">
+              </div>
+              <div>
+                <label for="category">Choose Category:</label>
+                <select name="category" id="category" name="category">
+                    <option value="food">food</option>
+                    <option value="Electricity">Electricity</option>
+                    <option value="Movies">Movies</option>
+                    <option value="fuel">fuel</option>
+                </select>
+              </div>
+              <input class="btn" type="submit" value="Add Expense">
+            </form>
+      
+            <ul id="expenses"></ul>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="./asyncNawait.js">  
+
+    </script>
+    </body>
+</html>
