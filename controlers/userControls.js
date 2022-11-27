@@ -1,5 +1,6 @@
 const path = require('path');
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 const rootDir = require('../util/path');
 
 exports.postUser = async (req,res,next) => {
@@ -13,12 +14,16 @@ exports.postUser = async (req,res,next) => {
     if(userExist && userExist.length){
         res.status(500).json({ errormsg: 'User already exists with this email Id'})
     } else {
-        const userDetails = await User.create({
-            username: username,
-            emailId: emailId,
-            password: password
+        const saltrounds = 10;
+        bcrypt.hash(password,saltrounds, async(er,hash) => {
+            const userDetails = await User.create({
+                username: username,
+                emailId: emailId,
+                password: hash
+            })
+            res.status(201).redirect('/user/login')
         })
-        res.status(201).redirect('/user/login')
+        
     }
 }
 
@@ -33,13 +38,15 @@ exports.postuserLogin = async (req,res,next) => {
     const registeruserExist = await User.findAll({where: {emailId: emailId}})
 
     if(registeruserExist && registeruserExist.length){
-        if(registeruserExist[0].password == password){
-            res.status(201).json({successMsg: 'User logged in successfully'})
-        } else {
-            res.status(401).json({failMsg: 'User not authorised'})
-        }
+        bcrypt.compare(password, registeruserExist[0].password,(err,result) => {
+            if(result == true){
+                res.status(201).json({successMsg: 'User logged in successfully'})
+            } else {
+                res.status(401).json({errMsg: 'You entered wrong password. Try again', err: err})
+            }
+        })
     } else {
-        res.status(200).json({errorMsg: 'User does not exist'})
+        res.status(404).json({errorMsg: 'User does not exist'})
     }
 
 }
