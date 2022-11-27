@@ -36,9 +36,9 @@ window.addEventListener('DOMContentLoaded', async function() {
 
 function showexpenseonScreen(expense){
     const parentNode = document.getElementById('expenses');
-    const childHTML = `<li id=${expense.id}>  ${expense.expenseAmt} : ${expense.description} : ${expense.category}
-    <button onClick=deleteExpense("${expense.id}")>Delete Expense</button>
-    <button onclick=editExpense("${expense.id}","${expense.category}","${expense.expenseAmt}","${expense.description}")>Edit Expense</button>
+    const childHTML = `<li id=${expense.id} class="expense-list-item">  ${expense.expenseAmt} : ${expense.description} : ${expense.category}
+    <button onClick=deleteExpense("${expense.id}") class="action-btn">Delete Expense</button>
+    <button onclick=editExpense("${expense.id}","${expense.category}","${expense.expenseAmt}","${expense.description}") class="action-btn">Edit Expense</button>
     </li>`
     parentNode.innerHTML = parentNode.innerHTML + childHTML;
 }

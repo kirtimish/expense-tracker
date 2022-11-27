@@ -9,6 +9,7 @@ body{
     background-position: center;
 }
 
+/* index.html */
 #Signup-Section {
     padding: 50px 300px;
     margin: auto;
@@ -18,6 +19,7 @@ body{
     padding: 50px 40px;
 }
 
+/* login.html */
 #login-Section {
     padding: 50px 300px;
     margin: auto;
@@ -25,4 +27,49 @@ body{
 
 #login-form {
     padding: 50px 40px;
+}
+
+/* expense.html */
+#expense-section {
+    background: linear-gradient(to bottom, #33ccff 0%, #ffffcc 100%);
+    padding: 50px 300px;
+    margin: auto;
+}
+
+#expense-form {
+    padding: 50px 40px;
+}
+
+.btn {
+    background-color: #9fe3fa;
+    color: #ffffcc;
+}
+
+.btn:hover {
+    background-color: #ffffcc;
+    color: #40accf;
+    transition: 0.3s ease-in-out;
+}
+
+.expense-list-item {
+    list-style-type: none;
+    color: #ffffcc;
+    font-weight: 600;
+}
+
+.action-btn {
+    background-color: #36768b;
+    color: #ffffcc;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background-color: #ffffcc;
+    color: #36768b;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
 }

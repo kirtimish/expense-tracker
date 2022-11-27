@@ -1,4 +1,6 @@
 const Expense = require('../models/expense');
+const path = require('path');
+const rootDir = require('../util/path');
 
 exports.createExpense = async (req,res,next) => {
         try {
@@ -15,8 +17,8 @@ exports.createExpense = async (req,res,next) => {
                description: description,
                category: category
             });
-            // res.redirect('/');
-            res.json({expenseCreated: expense});
+            res.status(200).redirect('/insert-expense');
+            // res.json({expenseCreated: expense});
             
         } catch (error) { console.log(error) }
     }
@@ -29,6 +31,10 @@ exports.getExpenses = async (req,res,next) => {
     } catch (error) {
         console.log(err);
     }
+}
+
+exports.getExpensePage = (req,res,next) => {
+    res.sendfile(path.join(rootDir, 'public','expense.html'))
 }
 
 
