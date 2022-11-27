@@ -14,10 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(expenseRoutes);
 
-app.get('/',(req,res,next) => {
-    res.sendFile(path.join(rootDir, 'views', 'index.html'));
-})
-
 sequalize
 .sync()
 .then((result) => {
