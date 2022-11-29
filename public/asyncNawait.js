@@ -1,14 +1,23 @@
-const expenseAmt = document.getElementById('expenseAmount');
-const description = document.getElementById('description');
-const category = document.getElementById('category');
-const myForm = document.getElementById('expenseTracker-form');
 
-myForm.addEventListener('submit',addExpense);
+async function addExpense(event) {
+    event.preventDefault();
+    const expenseAmt = event.target.expenseAmt.value;
+    const description = event.target.description.value;
+    const category = event.target.category.value;
 
-async function addExpense() {
+    const expenseDetails = {
+        expenseAmt,
+        description,
+        category
+    }
         try {
-            const res = await axios.post('http://localhost:3000/insert-expense')
-            showexpenseonScreen(res.data);
+            const token = localStorage.getItem('token')
+            const res = await axios.post('http://localhost:3000/insert-expense',expenseDetails,{headers: { "Authorization": token}})
+            if(res.status == 201){
+                window.location.href = './expense.html'
+                showexpenseonScreen(res);
+            }
+            
         } catch (error) {
             console.log(error)
         }
@@ -21,7 +30,8 @@ async function addExpense() {
 
 window.addEventListener('DOMContentLoaded', async function() {
     try {
-        const res = await axios.get('http://localhost:3000/get-expenses');
+        const token = localStorage.getItem('token')
+        const res = await axios.get('http://localhost:3000/get-expenses',{headers: { "Authorization": token}});
         if(res.data){
             for(let i=0;i<res.data.length;i++){
                 showexpenseonScreen(res.data[i]);
@@ -52,7 +62,8 @@ function editExpense(expenseId,category,expenseAmt,desc){
 
 async function deleteExpense(expenseId){
     try {
-        const res = await axios.post(`http://localhost:3000/delete-expense/${expenseId}`) 
+        const token = localStorage.getItem('token')
+        const res = await axios.post(`http://localhost:3000/delete-expense/${expenseId}`,{headers: { "Authorization": token}}) 
         removeexpensefromScreen(expenseId)
     } catch (error) {
         console.log(error)

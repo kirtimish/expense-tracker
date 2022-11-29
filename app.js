@@ -14,10 +14,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(expenseRoutes);
-app.use(userRoutes);
+app.use('/user',userRoutes);
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 sequalize
 .sync()
