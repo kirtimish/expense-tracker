@@ -5,7 +5,8 @@ const userAuthentication = require('../middleware/auth')
 
 router.post('/insert-expense',userAuthentication.authenticate,expenseControls.createExpense);
 router.get('/get-expenses',userAuthentication.authenticate,expenseControls.getExpenses);
-
+router.get('/premiums',userAuthentication.authenticate, expenseControls.getAllUsers)
+router.get('/getInfo/:clickedUserId',userAuthentication.authenticate,expenseControls.getInfoForPremiumUsers)
 router.post('/delete-expense/:expenseId',userAuthentication.authenticate,expenseControls.deleteExpense);
 
 module.exports = router;

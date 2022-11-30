@@ -9,31 +9,43 @@
     <title>ExpenseTracker</title>
 </head>
     <body>
-      <div>
-        <h1 style="text-align: center; padding: 20px;">Expense Tracker</h1>
-        <form onsubmit="addExpense(event);" method="post" id="expenseTracker-form" class="expense-form">
-          <div class="form-group">
-            <label for="expenseAmount">Choose Expense Amount:</label>
-            <input type="text" name="expenseAmt" class="form-control" >
-          </div>
-          <div class="form-group">
-            <label for="description">Choose Description:</label>
-            <input type="text" name="description" class="form-control" >
-          </div>
-          <div class="form-group">
-            <label for="category">Choose Category:</label>
-            <select name="category" name="category" class="form-control" >
-                <option value="food">food</option>
-                <option value="Electricity">Electricity</option>
-                <option value="Movies">Movies</option>
-                <option value="fuel">fuel</option>
-            </select>
-          </div>
-          <input class="btn" type="submit" value="Add Expense">
-        </form>
+
+      <div class="expense-container">
+        <div class="expense-section">
+          <h1 style="text-align: center; padding: 20px;">Expense Tracker</h1>
+          <form onsubmit="addExpense(event);" method="post" id="expenseTracker-form" class="expense-form">
+            <div class="form-group">
+              <label for="expenseAmount">Choose Expense Amount:</label>
+              <input type="text" name="expenseAmt" class="form-control" >
+            </div>
+            <div class="form-group">
+              <label for="description">Choose Description:</label>
+              <input type="text" name="description" class="form-control" >
+            </div>
+            <div class="form-group">
+              <label for="category">Choose Category:</label>
+              <select name="category" name="category" class="form-control" >
+                  <option value="food">food</option>
+                  <option value="Electricity">Electricity</option>
+                  <option value="Movies">Movies</option>
+                  <option value="fuel">fuel</option>
+              </select>
+            </div>
+            <input class="btn" type="submit" value="Add Expense">
+          </form>
+        </div>
+        <div class="leaderboard-section">
+          <ul class="list-group">leaderboard</ul>
+        </div>
       </div>
       
-            <ul id="expenses"></ul>
+
+      
+            <div class="expense-list-items">
+              <ul id="expenses"></ul>
+            </div>
+            
+
             <button id="premium-btn">Buy Premium</button>
             <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>

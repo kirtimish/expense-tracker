@@ -101,3 +101,14 @@ body {
     color: #36768b;
     background-color: #fff;
 }
+
+.expense-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.leaderboardList {
+    list-style: none;
+}
