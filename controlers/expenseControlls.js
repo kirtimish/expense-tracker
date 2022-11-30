@@ -35,13 +35,11 @@ exports.getExpenses = async (req,res,next) => {
 exports.deleteExpense = async (req,res,next) => {
     try {
         const expenseId = req.params.expenseId;
-        const noOfrecords = await Expense.destroy({where: {id: expenseId,userId: req.user.id}});
-        if(noOfrecords == 0){
-            res.status(404).json({success: false, msg: 'You cant delete other people expense'})
+        const noOfRows = await Expense.destroy({where: {id: expenseId, userId: req.user.id}}) //user can only delete his data not others
+        if(noOfRows === 0) {
+            res.status(404).json({success: false, message: 'You cant delete expesnes of others'});
         }
-        // res.redirect('/');
-        return res.status(200).json({message:"expense deleted successfully"});
-    } catch (error) {
-        console.log(error);
-    }
+
+        return res.status(200).json({message:'user deleted successfully'});
+    }catch(err) {console.log(err)};
 }

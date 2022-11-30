@@ -9,7 +9,7 @@
     <title>ExpenseTracker</title>
 </head>
     <body>
-      <section id="expense-section">
+      <div>
         <h1 style="text-align: center; padding: 20px;">Expense Tracker</h1>
         <form onsubmit="addExpense(event);" method="post" id="expenseTracker-form" class="expense-form">
           <div class="form-group">
@@ -31,9 +31,11 @@
           </div>
           <input class="btn" type="submit" value="Add Expense">
         </form>
-      </section>
+      </div>
       
             <ul id="expenses"></ul>
+            <button id="premium-btn">Buy Premium</button>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="./asyncNawait.js">  
 
