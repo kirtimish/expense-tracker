@@ -1,22 +1,23 @@
-const forgotPassword = document.getElementById('forgotPassForm')
-forgotPassword.addEventListener('onsubmit', forgotPasswordFunc);
 
-async function forgotPasswordFunc(e) {
-    e.preventDefault();
-
-    const form = new FormData(e.target)
-
-    const userDetails = {
-        email: form.get('email')
+function forgotPass(event){
+    event.preventDefault();
+    const email = event.target.emailId.value;
+    const token = localStorage.getItem('token');
+    const obj = {
+        email
     }
-    try {
-        const res = await axios.post('http://localhost:3000/password/forgotpassword', userDetails)
-        if(res.status == 202){
-            alert('Mail sent successfully');
-        } else {
-            throw new Error('Something went wrong. Try again!!')
+    console.log('1255');
+    console.log(obj);
+
+    axios.post('http://localhost:3000/password/forgotpassword',obj, {headers: {"Authorization": token}}).then(response => {
+
+        if(response.status === 202){
+        document.body.innerHTML += '<div style="color:red;text-align:center;margin-top:70px;">Mail Successfuly sent <div>'
+        }else {
+        throw new Error('Something went wrong!!!')
         }
-    } catch (error) {
-        console.log(error)
-    }
+        }).catch(err => {
+            document.body.innerHTML += `<div style="color:red;text-align:center;margin-top:70px;">${err} <div>`;
+})
+
 }
