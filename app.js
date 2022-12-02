@@ -7,11 +7,13 @@ const sequalize = require('./util/database');
 const Expense = require('./models/expense');
 const User = require('./models/user')
 const Order = require('./models/order');
+const ForgotPassword = require('./models/forgotPass');
 
 const rootDir = require('./util/path');
 const expenseRoutes = require('./routes/expenseRoutes');
 const userRoutes = require('./routes/userRoutes')
 const purchaseRoutes = require('./routes/purchaseRoutes')
+const forgotPassRoutes = require('./routes/forgotPass');
 
 const app = express();
 
@@ -22,13 +24,17 @@ app.use(bodyParser.json());
 
 app.use(expenseRoutes);
 app.use('/user',userRoutes);
-app.use('/purchase',purchaseRoutes)
+app.use('/purchase',purchaseRoutes);
+app.use('/password', forgotPassRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(ForgotPassword);
+ForgotPassword.belongsTo(User);
 
 sequalize
 .sync()
