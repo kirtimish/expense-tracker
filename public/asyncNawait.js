@@ -198,3 +198,10 @@ function openUserExpenses(){
     localStorage.setItem('clickedUser' , user)
     window.location.href = './leaderboard.html'
 }
+
+function download() {
+    const userType = localStorage.getItem('user')
+    if(userType === 'true'){
+        window.location.href = './report.html'
+    }
+}
