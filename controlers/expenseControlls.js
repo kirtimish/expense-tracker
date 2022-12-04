@@ -26,11 +26,35 @@ exports.createExpense = async (req,res,next) => {
 
 
 exports.getExpenses = async (req,res,next) => {
+    let page = req.params.pageNo || 1;
+
+    console.log(page)
+
+    let Items_Per_Page = +(req.body.Items_Per_Page) || 5;
+
+    console.log(Items_Per_Page)
+    let totalItems;
+
     try {
-        const expenses = await Expense.findAll({where: {userId: req.user.id}});
-        res.json(expenses);
+        let count = await Expense.count({where: {userId:req.user.id}})
+        totalItems = count;
+
+        const data = await req.user.getExpenses({offset: (page-1)*Items_Per_Page,limit: Items_Per_Page})
+
+        res.status(200).json({
+            data,
+            info: {
+                currentPage: page,
+                hasNextPage: totalItems > page * Items_Per_Page,
+                hasPreviousPage: page > 1,
+                nextPage: +page + 1,
+                previuosPage: +page - 1,
+                lastPage: Math.ceil(totalItems / Items_Per_Page) 
+            }
+        });
     } catch (error) {
         console.log(err);
+        res.status(500).json({error:error});
     }
 }
 
@@ -111,7 +135,7 @@ exports.downloadExpense = async (req,res,next) => {
         const stringifiedExpense = JSON.stringify(expense)
         const userId = req.user.id;
 
-        
+
     
         const filename = `Expense${userId}/${new Date()}.txt`
     
