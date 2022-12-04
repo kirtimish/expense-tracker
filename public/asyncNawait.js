@@ -33,7 +33,7 @@ async function addExpense(event) {
 window.addEventListener('DOMContentLoaded', async function() {
     const token = localStorage.getItem('token')
     const listOfUsers = document.getElementById('expenses')
-    let Items_Per_Page = 2
+    let Items_Per_Page = +document.getElementById('Items_Per_Page')
     let page = 1;
     
 
@@ -61,33 +61,33 @@ function showPagination({currentPage,hasNextPage,hasPreviousPage,nextPage,previu
     if(hasPreviousPage){
         const button1 = document.createElement('button');
         button1.innerHTML = previousPage ;
-        button1.addEventListener('click' , ()=>getPageExpenses(page))
+        button1.addEventListener('click' , ()=>getPageExpenses(page,previousPage))
         pagination.appendChild(button1)
     }
 
     const button2 = document.createElement('button');
     button2.classList.add('active')
     button2.innerHTML = currentPage ;
-    button2.addEventListener('click' , ()=>getPageExpenses(page))
+    button2.addEventListener('click' , ()=>getPageExpenses(page,currentPage))
     pagination.appendChild(button2)
 
     if(hasNextPage){
         const button3 = document.createElement('button');
         button3.innerHTML = nextPage ;
-        button3.addEventListener('click' , ()=>getPageExpenses(page))
+        button3.addEventListener('click' , ()=>getPageExpenses(page,nextPage))
         pagination.appendChild(button3)
     }
 
     if( currentPage!=lastPage && nextPage!=lastPage && lastPage != 0){
         const button3 = document.createElement('button');
         button3.innerHTML = lastPage ;
-        button3.addEventListener('click' , ()=>getPageExpenses(page))
+        button3.addEventListener('click' , ()=>getPageExpenses(page,lastPage))
         pagination.appendChild(button3)
     }
 }
 
-async function getPageExpenses(page){
-    let Items_Per_Page = 2;
+async function getPageExpenses(page,limitper){
+    let Items_Per_Page = limitper;
     const listOfUsers = document.getElementById('expenses')
 
     console.log(Items_Per_Page);
@@ -106,6 +106,20 @@ async function getPageExpenses(page){
     }
 
     showPagination(response.data.info)
+}
+
+function perPage(event) {
+    let Items_Per_Page = +document.getElementById('Items_Per_Page')
+    let page = 1;
+    event.preventDefault();
+    console.log('*****************');
+    console.log(Items_Per_Page);
+    //console.log(typeof(+event.target.Items_Per_Page.value));
+    //Items_Per_Page = +event.target.Items_Per_Page.value
+    localStorage.setItem('itemsperpage' , +event.target.Items_Per_Page.value )
+    Items_Per_Page = localStorage.getItem('itemsperpage')
+    getPageExpenses(page, +event.target.Items_Per_Page.value);
+    //event.target.Items_Per_Page.value
 }
 
 function showexpenseonScreen(expense){
