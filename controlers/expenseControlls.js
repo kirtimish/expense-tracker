@@ -2,6 +2,8 @@ const Expense = require('../models/expense');
 const path = require('path');
 const rootDir = require('../util/path');
 const User = require('../models/user');
+const Userservices = require('../services/userservices');
+const s3services = require('../services/s3services')
 
 exports.createExpense = async (req,res,next) => {
     const { expenseAmt, description, category } = req.body;
@@ -98,4 +100,43 @@ exports.deleteExpense = async (req,res,next) => {
 
         return res.status(200).json({message:'user deleted successfully'});
     }catch(err) {console.log(err)};
+}
+
+exports.downloadExpense = async (req,res,next) => {
+    try {
+        const expense = await Userservices.getExpenses(req);
+
+        console.log(expense)
+    
+        const stringifiedExpense = JSON.stringify(expense)
+        const userId = req.user.id;
+
+        
+    
+        const filename = `Expense${userId}/${new Date()}.txt`
+    
+        const fileURL = await s3services.uploadToS3(stringifiedExpense,filename)
+    
+        const downloadUrlData = await req.user.createDownloadUrl({
+            fileURL: fileURL,
+            filename
+        })
+    
+        res.status(200).json({fileURL, downloadUrlData, success: true});
+    } catch (error) {
+        res.status(500).json({fileURL: '', success:false})
+    }
+
+}
+
+exports.downloadAllUrl = async(req,res,next) => {
+    try {
+        let urls = await req.user.getDownloadUrls();
+        if(!urls){
+            res.sttus(404).json({ message: 'no urls found'})
+        }
+        res.status(200).json({ urls, success: true})
+    } catch (error) {
+        res.status(500).json({error})
+    }
 }

@@ -14,6 +14,7 @@ const expenseRoutes = require('./routes/expenseRoutes');
 const userRoutes = require('./routes/userRoutes')
 const purchaseRoutes = require('./routes/purchaseRoutes')
 const forgotPassRoutes = require('./routes/forgotPass');
+const DownloadUrl = require('./models/downloadUrl');
 
 const app = express();
 
@@ -35,6 +36,9 @@ Order.belongsTo(User);
 
 User.hasMany(ForgotPassword);
 ForgotPassword.belongsTo(User);
+
+User.hasMany(DownloadUrl)
+DownloadUrl.belongsTo(User)
 
 sequalize
 .sync()
